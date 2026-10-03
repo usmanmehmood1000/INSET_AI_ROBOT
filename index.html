@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>INSET AI Welcome Robot</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =========================================
+         BACKGROUND GLOW
+    ========================================== -->
+
+    <div class="glow glow-one"></div>
+
+    <div class="glow glow-two"></div>
+
+
+    <!-- =========================================
+         TOP BAR
+    ========================================== -->
+
+    <div class="top-bar">
+
+        <img
+            src="city-school-logo.png"
+            alt="The City School"
+            class="school-logo"
+        >
+
+    </div>
+
+
+    <!-- =========================================
+         AI STATUS
+    ========================================== -->
+
+    <div class="status">
+
+        <span class="status-dot"></span>
+
+        <span id="statusText">
+            STARTING AI VISION...
+        </span>
+
+    </div>
+
+
+    <!-- =========================================
+         VISITOR COUNTER
+    ========================================== -->
+
+    <div class="visitor-counter">
+
+        <span class="counter-label">
+            VISITORS WELCOMED
+        </span>
+
+        <span id="visitorCount">
+            00
+        </span>
+
+    </div>
+
+
+    <!-- =========================================
+         ROBOT SECTION
+    ========================================== -->
+
+    <main class="robot-section">
+
+
+        <!-- =====================================
+             ROBOT FACE
+        ====================================== -->
+
+        <div class="robot-face">
+
+
+            <!-- EYES -->
+
+            <div class="eyes">
+
+
+                <!-- LEFT EYE -->
+
+                <div class="eye left-eye">
+
+                    <div class="pupil"></div>
+
+                </div>
+
+
+                <!-- RIGHT EYE -->
+
+                <div class="eye right-eye">
+
+                    <div class="pupil"></div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- MOUTH -->
+
+            <div
+                id="mouth"
+                class="mouth"
+            ></div>
+
+
+        </div>
+
+
+        <!-- =====================================
+             WELCOME TEXT
+        ====================================== -->
+
+        <div class="welcome-text">
+
+            <h1>
+                Welcome to INSET!
+            </h1>
+
+            <p>
+                Let’s learn, explore, and innovate!
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- =========================================
+         HIDDEN CAMERA
+    ========================================== -->
+
+    <video
+        id="camera"
+        autoplay
+        muted
+        playsinline
+    ></video>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <div
+            id="instruction"
+            class="ai-message"
+        >
+            Starting camera...
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================
+         TENSORFLOW
+    ========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js">
+    </script>
+
+
+    <!-- =========================================
+         COCO-SSD
+    ========================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3">
+    </script>
+
+
+    <!-- =========================================
+         ROBOT JAVASCRIPT
+    ========================================== -->
+
+    <script
+        src="script.js">
+    </script>
+
+
+</div>
+
+</body>
+
+</html>
