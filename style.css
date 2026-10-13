@@ -1,1136 +1,420 @@
-/* ============================================
-   INSET AI WELCOME ROBOT
-   FUTURISTIC AI SCANNING INTERFACE
-============================================ */
 
-
-/* ============================================
-   RESET
-============================================ */
+/* INSET AI WELCOME ROBOT — TABLET EDITION */
 
 * {
-
     margin: 0;
-
     padding: 0;
-
     box-sizing: border-box;
-
 }
-
-
-/* ============================================
-   MAIN SCREEN
-============================================ */
 
 html,
 body {
-
     width: 100%;
-
     height: 100%;
-
     overflow: hidden;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 50% 35%,
-            #263f91 0%,
-            #151e4c 45%,
-            #070b20 100%
-        );
-
-    color: white;
-
+    font-family: Arial, Helvetica, sans-serif;
+    background: #071426;
+    color: #ffffff;
 }
-
-
-/* ============================================
-   APPLICATION
-============================================ */
 
 .app {
-
-    width: 100vw;
-
-    height: 100vh;
-
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
     position: relative;
-
     display: flex;
-
     flex-direction: column;
-
+    align-items: center;
     overflow: hidden;
-
+    background:
+        radial-gradient(ellipse at 50% 40%, #17395b 0%, #0b1c32 48%, #050b16 100%);
+    isolation: isolate;
 }
 
-
-/* ============================================
-   BACKGROUND GLOW
-============================================ */
-
+/* Subtle background lighting */
 .glow {
-
     position: absolute;
-
     border-radius: 50%;
-
-    filter: blur(70px);
-
     pointer-events: none;
-
+    z-index: -1;
 }
-
 
 .glow-one {
-
-    width: 420px;
-
-    height: 420px;
-
-    background:
-        rgba(0, 210, 255, 0.18);
-
-    top: 10%;
-
-    left: -120px;
-
-    animation:
-        backgroundFloat 8s ease-in-out infinite;
-
+    width: 260px;
+    height: 260px;
+    top: 15%;
+    left: -150px;
+    background: rgba(0, 210, 255, 0.10);
 }
-
 
 .glow-two {
-
-    width: 450px;
-
-    height: 450px;
-
-    background:
-        rgba(100, 80, 255, 0.18);
-
-    right: -150px;
-
-    bottom: -100px;
-
-    animation:
-        backgroundFloat 10s ease-in-out infinite reverse;
-
+    width: 300px;
+    height: 300px;
+    right: -180px;
+    bottom: 5%;
+    background: rgba(64, 100, 255, 0.10);
 }
 
-
-@keyframes backgroundFloat {
-
-    0%,
-    100% {
-
-        transform:
-            translate(0, 0);
-
-    }
-
-    50% {
-
-        transform:
-            translate(25px, -20px);
-
-    }
-
-}
-
-
-/* ============================================
-   CITY SCHOOL LOGO
-============================================ */
-
+/* School branding */
 .top-bar {
-
     width: 100%;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
-    padding-top: 18px;
-
+    padding: 12px 12px 4px;
     z-index: 5;
-
 }
-
 
 .school-logo {
-
-    width: 180px;
-
-    max-width: 35vw;
-
+    width: 150px;
+    max-width: 34vw;
+    max-height: 65px;
     height: auto;
-
     object-fit: contain;
-
-    filter:
-        drop-shadow(
-            0 0 12px
-            rgba(255,255,255,0.18)
-        );
-
-    animation:
-        logoAppear 1s ease-out;
-
 }
 
-
-@keyframes logoAppear {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(-15px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-
-    }
-
-}
-
-
-/* ============================================
-   AI STATUS
-============================================ */
-
+/* AI status */
 .status {
-
     margin-top: 5px;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     gap: 8px;
-
-    font-size: 12px;
-
+    font-size: 11px;
     letter-spacing: 2px;
-
-    color:
-        rgba(255,255,255,0.75);
-
-    z-index: 10;
-
-    transition:
-        all 0.3s ease;
-
+    color: #b6d2e9;
+    text-align: center;
+    z-index: 5;
 }
-
 
 .status-dot {
-
-    width: 9px;
-
-    height: 9px;
-
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-
-    background:
-        #36ff9b;
-
-    box-shadow:
-
-        0 0 8px
-        #36ff9b,
-
-        0 0 18px
-        #36ff9b;
-
-    animation:
-        statusPulse 1.5s infinite;
-
+    background: #42f5bd;
+    box-shadow: 0 0 8px rgba(66, 245, 189, 0.55);
 }
 
-
-@keyframes statusPulse {
-
-    0%,
-    100% {
-
-        opacity: 1;
-
-        transform:
-            scale(1);
-
-    }
-
-    50% {
-
-        opacity: 0.45;
-
-        transform:
-            scale(0.75);
-
-    }
-
-}
-
-
-/* ============================================
-   VISITOR COUNTER
-============================================ */
-
+/* Visitor counter */
 .visitor-counter {
-
     margin-top: 10px;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
-    gap: 10px;
-
-    z-index: 10;
-
-    font-size: 11px;
-
-    letter-spacing: 2px;
-
-    color:
-        rgba(255,255,255,0.65);
-
+    gap: 9px;
+    z-index: 5;
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    color: #a9c3da;
 }
-
 
 .counter-label {
-
-    opacity: 0.75;
-
+    opacity: 0.9;
 }
-
 
 #visitorCount {
-
-    min-width: 32px;
-
-    padding: 4px 9px;
-
+    min-width: 36px;
+    padding: 5px 10px;
     border-radius: 20px;
-
-    background:
-        rgba(60, 220, 255, 0.12);
-
-    border:
-        1px solid
-        rgba(80, 220, 255, 0.35);
-
-    color:
-        #72eaff;
-
-    font-size: 13px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-
+    background: rgba(42, 220, 255, 0.10);
+    border: 1px solid rgba(73, 220, 255, 0.5);
+    color: #69eaff;
+    font-size: 14px;
+    font-weight: 700;
     text-align: center;
-
-    box-shadow:
-        0 0 12px
-        rgba(60, 220, 255, 0.20);
-
-    transition:
-        all 0.3s ease;
-
+    font-variant-numeric: tabular-nums;
+    transition: transform 0.2s ease;
 }
-
 
 #visitorCount.updated {
-
-    transform:
-        scale(1.25);
-
-    box-shadow:
-        0 0 25px
-        rgba(60, 240, 255, 0.65);
-
+    transform: scale(1.12);
 }
 
-
-/* ============================================
-   ROBOT AREA
-============================================ */
-
+/* Main robot area */
 .robot-section {
-
     flex: 1;
-
+    width: 100%;
+    min-height: 0;
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
-    z-index: 3;
-
+    padding: 12px 16px;
+    z-index: 2;
 }
 
-
-/* ============================================
-   ROBOT FACE
-============================================ */
-
+/* Modern digital face */
 .robot-face {
-
-    width:
-        min(470px, 75vw);
-
-    height:
-        min(300px, 42vh);
-
-    border-radius:
-        48%;
-
     position: relative;
-
+    width: min(440px, 78vw);
+    height: clamp(210px, 34vh, 285px);
+    flex-shrink: 0;
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
+    gap: 0;
+    border-radius: 42% / 38%;
     background:
-        linear-gradient(
-            145deg,
-            rgba(80, 120, 255, 0.30),
-            rgba(20, 30, 80, 0.75)
-        );
-
-    border:
-        2px solid
-        rgba(130, 210, 255, 0.5);
-
+        linear-gradient(145deg, #183b59, #081522 75%);
+    border: 2px solid rgba(80, 221, 255, 0.75);
     box-shadow:
-
-        0 0 20px
-        rgba(50, 200, 255, 0.25),
-
-        0 0 70px
-        rgba(50, 150, 255, 0.15),
-
-        inset 0 0 50px
-        rgba(100, 150, 255, 0.10);
-
-    backdrop-filter:
-        blur(10px);
-
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-
+        0 0 0 7px rgba(47, 191, 235, 0.045),
+        0 12px 35px rgba(0, 0, 0, 0.30),
+        inset 0 0 28px rgba(36, 183, 231, 0.10);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-
-/* ============================================
-   OUTER AI SCANNING RING
-============================================ */
-
+/* Decorative face details */
 .robot-face::before {
-
     content: "";
-
     position: absolute;
-
-    width:
-        calc(100% + 70px);
-
-    height:
-        calc(100% + 70px);
-
-    border-radius:
-        50%;
-
-    border:
-        1px solid
-        rgba(70, 220, 255, 0.28);
-
-    box-shadow:
-
-        0 0 15px
-        rgba(70, 220, 255, 0.18),
-
-        inset 0 0 15px
-        rgba(70, 220, 255, 0.08);
-
-    animation:
-        scanningRing 4s linear infinite;
-
-    pointer-events:
-        none;
-
-    z-index:
-        -1;
-
+    inset: 10px;
+    border: 1px solid rgba(109, 217, 255, 0.13);
+    border-radius: inherit;
+    pointer-events: none;
 }
-
-
-@keyframes scanningRing {
-
-    0% {
-
-        transform:
-            rotate(0deg)
-            scale(0.98);
-
-        opacity:
-            0.35;
-
-    }
-
-    50% {
-
-        transform:
-            rotate(180deg)
-            scale(1.02);
-
-        opacity:
-            0.75;
-
-    }
-
-    100% {
-
-        transform:
-            rotate(360deg)
-            scale(0.98);
-
-        opacity:
-            0.35;
-
-    }
-
-}
-
-
-/* ============================================
-   SECOND SCANNING RING
-============================================ */
 
 .robot-face::after {
-
     content: "";
-
     position: absolute;
-
-    width:
-        calc(100% + 115px);
-
-    height:
-        calc(100% + 115px);
-
-    border-radius:
-        50%;
-
-    border:
-        1px dashed
-        rgba(100, 180, 255, 0.16);
-
-    animation:
-        outerScan 8s linear infinite reverse;
-
-    pointer-events:
-        none;
-
-    z-index:
-        -1;
-
+    top: 13px;
+    left: 50%;
+    width: 35px;
+    height: 4px;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    background: #42dfff;
+    opacity: 0.8;
 }
-
-
-@keyframes outerScan {
-
-    from {
-
-        transform:
-            rotate(0deg);
-
-    }
-
-    to {
-
-        transform:
-            rotate(360deg);
-
-    }
-
-}
-
-
-/* ============================================
-   PERSON DETECTED
-============================================ */
 
 .robot-face.person-detected {
-
-    transform:
-        scale(1.04);
-
+    border-color: #75f4ff;
     box-shadow:
-
-        0 0 30px
-        rgba(50, 220, 255, 0.55),
-
-        0 0 90px
-        rgba(50, 180, 255, 0.30),
-
-        inset 0 0 60px
-        rgba(100, 180, 255, 0.20);
-
+        0 0 0 7px rgba(47, 191, 235, 0.07),
+        0 0 26px rgba(50, 215, 255, 0.22),
+        inset 0 0 30px rgba(36, 183, 231, 0.13);
 }
 
-
-.robot-face.person-detected::before {
-
-    border-color:
-        rgba(80, 240, 255, 0.65);
-
-    box-shadow:
-
-        0 0 25px
-        rgba(70, 230, 255, 0.45);
-
-    animation-duration:
-        1.5s;
-
-}
-
-
-/* ============================================
-   EYES
-============================================ */
-
+/* Eyes */
 .eyes {
-
+    width: 100%;
     display: flex;
-
-    align-items: center;
-
     justify-content: center;
-
-    gap:
-        clamp(45px, 8vw, 85px);
-
+    align-items: center;
+    gap: clamp(38px, 8vw, 72px);
+    margin-top: 10px;
 }
-
-
-/* ============================================
-   INDIVIDUAL EYE
-============================================ */
 
 .eye {
-
-    width:
-        clamp(65px, 10vw, 100px);
-
-    height:
-        clamp(80px, 12vw, 120px);
-
-    border-radius:
-        50%;
-
-    position:
-        relative;
-
-    overflow:
-        hidden;
-
-    background:
-        radial-gradient(
-            circle,
-            #ffffff 0%,
-            #bcecff 55%,
-            #74d9ff 100%
-        );
-
-    border:
-        3px solid
-        rgba(150, 230, 255, 0.9);
-
+    position: relative;
+    width: clamp(65px, 12vw, 94px);
+    height: clamp(52px, 9vw, 72px);
+    overflow: hidden;
+    border-radius: 45% 45% 48% 48%;
+    background: linear-gradient(180deg, #c9fbff, #42dfff);
     box-shadow:
-
-        0 0 15px
-        rgba(80, 220, 255, 0.8),
-
-        0 0 35px
-        rgba(80, 180, 255, 0.35);
-
-    animation:
-        blink 5s infinite;
-
+        0 0 13px rgba(52, 220, 255, 0.4),
+        inset 0 -5px 10px rgba(0, 94, 153, 0.2);
+    animation: eyeBlink 6s infinite;
 }
-
-
-/* ============================================
-   PUPIL
-============================================ */
 
 .pupil {
-
-    position:
-        absolute;
-
-    width:
-        38%;
-
-    height:
-        38%;
-
-    left:
-        31%;
-
-    top:
-        31%;
-
-    border-radius:
-        50%;
-
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            #ffffff 0%,
-            #263cff 12%,
-            #101b80 55%,
-            #030622 100%
-        );
-
-    box-shadow:
-
-        0 0 15px
-        rgba(70, 160, 255, 0.9);
-
-    transition:
-        transform 0.35s ease;
-
+    position: absolute;
+    left: 36%;
+    top: 28%;
+    width: 30%;
+    height: 43%;
+    border-radius: 50%;
+    background: #071426;
+    box-shadow: inset 0 0 0 2px rgba(7, 20, 38, 0.15);
+    transition: transform 0.22s ease;
 }
 
-
-/* ============================================
-   BLINKING
-============================================ */
-
-@keyframes blink {
-
-    0%,
-    44%,
-    48%,
-    100% {
-
-        transform:
-            scaleY(1);
-
-    }
-
-    46% {
-
-        transform:
-            scaleY(0.08);
-
-    }
-
+.pupil::after {
+    content: "";
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 24%;
+    height: 24%;
+    border-radius: 50%;
+    background: #ffffff;
 }
 
+/* Gentle blinking */
+@keyframes eyeBlink {
+    0%, 44%, 48%, 78%, 82%, 100% {
+        transform: scaleY(1);
+    }
+    46%, 80% {
+        transform: scaleY(0.08);
+    }
+}
 
-/* ============================================
-   MOUTH
-============================================ */
-
+/* Digital mouth */
 .mouth {
-
-    width:
-        100px;
-
-    height:
-        24px;
-
-    margin-top:
-        30px;
-
-    border-radius:
-        0 0 60px 60px;
-
-    border-bottom:
-        5px solid
-        #69e7ff;
-
-    box-shadow:
-
-        0 5px 15px
-        rgba(60, 220, 255, 0.5);
-
-    transition:
-        all 0.08s ease;
-
+    position: relative;
+    width: 76px;
+    height: 13px;
+    margin-top: 27px;
+    border-radius: 0 0 45px 45px;
+    border-bottom: 5px solid #58eaff;
+    background: transparent;
+    box-shadow: 0 4px 12px rgba(56, 220, 255, 0.15);
+    transform-origin: center;
+    transition: height 0.07s ease, width 0.07s ease;
 }
-
-
-/* ============================================
-   LIP SYNC
-============================================ */
 
 .mouth.talking {
-
-    animation:
-        lipSync 0.14s infinite alternate;
-
+    animation: mouthTalk 0.18s ease-in-out infinite alternate;
 }
 
+.mouth.speech-beat {
+    height: 25px;
+    width: 86px;
+    border: 3px solid #58eaff;
+    border-radius: 45%;
+    background: rgba(56, 220, 255, 0.22);
+}
 
-@keyframes lipSync {
-
+@keyframes mouthTalk {
     from {
-
-        height:
-            14px;
-
-        width:
-            85px;
-
-        border-radius:
-            50%;
-
-        background:
-            rgba(50, 220, 255, 0.18);
-
+        height: 8px;
+        width: 65px;
+        border-radius: 0 0 35px 35px;
     }
-
     to {
-
-        height:
-            42px;
-
-        width:
-            105px;
-
-        border-radius:
-            50%;
-
-        background:
-            rgba(50, 220, 255, 0.32);
-
+        height: 31px;
+        width: 83px;
+        border-radius: 45%;
     }
-
 }
 
-
-/* ============================================
-   WELCOME TEXT
-============================================ */
-
+/* Welcome message */
 .welcome-text {
-
-    text-align:
-        center;
-
-    margin-top:
-        28px;
-
-    animation:
-        textAppear 1s ease-out;
-
+    text-align: center;
+    margin-top: clamp(18px, 3vh, 28px);
+    max-width: 800px;
 }
-
-
-@keyframes textAppear {
-
-    from {
-
-        opacity:
-            0;
-
-        transform:
-            translateY(15px);
-
-    }
-
-    to {
-
-        opacity:
-            1;
-
-        transform:
-            translateY(0);
-
-    }
-
-}
-
 
 .welcome-text h1 {
-
-    font-size:
-        clamp(28px, 5vw, 55px);
-
-    font-weight:
-        700;
-
-    letter-spacing:
-        1px;
-
-    text-shadow:
-
-        0 0 15px
-        rgba(90, 210, 255, 0.5);
-
+    font-size: clamp(27px, 4.5vw, 45px);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: #f2fbff;
 }
-
 
 .welcome-text p {
-
-    margin-top:
-        10px;
-
-    font-size:
-        clamp(16px, 2.5vw, 25px);
-
-    color:
-        rgba(255,255,255,0.78);
-
+    margin-top: 10px;
+    font-size: clamp(15px, 2.2vw, 22px);
+    line-height: 1.4;
+    color: #b9d5e8;
 }
 
-
-/* ============================================
-   CAMERA
-============================================ */
-
+/* Camera remains active but hidden */
 #camera {
-
-    position:
-        absolute;
-
-    width:
-        1px;
-
-    height:
-        1px;
-
-    opacity:
-        0;
-
-    pointer-events:
-        none;
-
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
 }
 
-
-/* ============================================
-   FOOTER
-============================================ */
-
+/* Footer */
 footer {
-
-    width:
-        100%;
-
-    text-align:
-        center;
-
-    padding-bottom:
-        20px;
-
-    z-index:
-        5;
-
+    width: 100%;
+    text-align: center;
+    padding: 8px 12px max(14px, env(safe-area-inset-bottom));
+    z-index: 5;
 }
-
 
 .ai-message {
-
-    display:
-        inline-block;
-
-    padding:
-        10px 22px;
-
-    border-radius:
-        30px;
-
-    background:
-        rgba(255,255,255,0.08);
-
-    border:
-        1px solid
-        rgba(255,255,255,0.15);
-
-    color:
-        rgba(255,255,255,0.65);
-
-    font-size:
-        13px;
-
-    letter-spacing:
-        0.5px;
-
-    transition:
-        all 0.3s ease;
-
+    display: inline-block;
+    max-width: 95%;
+    padding: 10px 18px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(150, 211, 239, 0.18);
+    color: #b4cadb;
+    font-size: 12px;
+    line-height: 1.4;
 }
 
+/* Tablet layout, including landscape */
+@media (min-width: 601px) {
+    .school-logo {
+        width: 165px;
+    }
 
-/* ============================================
-   TABLET / MOBILE
-============================================ */
+    .robot-face {
+        width: min(470px, 58vw);
+        height: min(300px, 38vh);
+    }
 
-@media (max-width: 600px) {
+    .eye {
+        width: 88px;
+        height: 66px;
+    }
+
+    .eyes {
+        gap: 72px;
+    }
+}
+
+/* Short screens */
+@media (max-height: 650px) {
+    .top-bar {
+        padding-top: 5px;
+    }
 
     .school-logo {
-
-        width:
-            145px;
-
+        width: 115px;
+        max-height: 42px;
     }
-
 
     .visitor-counter {
-
-        margin-top:
-            7px;
-
-        font-size:
-            9px;
-
-        letter-spacing:
-            1.5px;
-
+        margin-top: 4px;
     }
 
-
-    #visitorCount {
-
-        font-size:
-            12px;
-
-        padding:
-            3px 8px;
-
+    .robot-section {
+        padding: 5px 12px;
     }
-
 
     .robot-face {
-
-        height:
-            250px;
-
+        height: min(205px, 33vh);
     }
-
-
-    .robot-face::before {
-
-        width:
-            calc(100% + 45px);
-
-        height:
-            calc(100% + 45px);
-
-    }
-
-
-    .robot-face::after {
-
-        width:
-            calc(100% + 75px);
-
-        height:
-            calc(100% + 75px);
-
-    }
-
 
     .welcome-text {
-
-        margin-top:
-            20px;
-
+        margin-top: 12px;
     }
 
-}
-
-
-/* ============================================
-   LARGE TABLETS
-============================================ */
-
-@media (min-width: 601px) {
-
-    .robot-face {
-
-        width:
-            min(520px, 70vw);
-
-        height:
-            min(330px, 45vh);
-
+    .welcome-text h1 {
+        font-size: clamp(23px, 4vw, 34px);
     }
 
+    .welcome-text p {
+        margin-top: 5px;
+        font-size: clamp(13px, 2vw, 17px);
+    }
+
+    footer {
+        padding-bottom: 7px;
+    }
+
+    .ai-message {
+        padding: 7px 12px;
+    }
 }
 
-
-/* ============================================
-   PERFORMANCE
-============================================ */
-
-.robot-face,
-.pupil,
-.mouth,
-.robot-face::before,
-.robot-face::after {
-
-    will-change:
-        transform;
-
-}
-
-
-/* ============================================
-   REDUCED MOTION
-============================================ */
-
+/* Avoid expensive effects and animations when reduced motion is requested */
 @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
-
-        animation-duration:
-            0.01ms !important;
-
-        animation-iteration-count:
-            1 !important;
-
-        transition-duration:
-            0.01ms !important;
-
+        animation: none !important;
+        transition: none !important;
     }
-
 }
