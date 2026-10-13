@@ -1,585 +1,223 @@
-// ============================================
-// INSET AI WELCOME ROBOT
-// COMPUTER VISION + EXPRESSIVE ROBOT
-// VISITOR COUNTER
-// ============================================
 
+const mouth = document.getElementById("mouth");
+const instruction = document.getElementById("instruction");
+const statusText = document.getElementById("statusText");
+const camera = document.getElementById("camera");
+const leftPupil = document.querySelector(".left-eye .pupil");
+const rightPupil = document.querySelector(".right-eye .pupil");
+const robotFace = document.querySelector(".robot-face");
+const visitorCountDisplay = document.getElementById("visitorCount");
 
-// ============================================
-// ROBOT ELEMENTS
-// ============================================
-
-const mouth =
-    document.getElementById("mouth");
-
-
-const instruction =
-    document.getElementById("instruction");
-
-
-const statusText =
-    document.getElementById("statusText");
-
-
-const camera =
-    document.getElementById("camera");
-
-
-const leftPupil =
-    document.querySelector(
-        ".left-eye .pupil"
-    );
-
-
-const rightPupil =
-    document.querySelector(
-        ".right-eye .pupil"
-    );
-
-
-const robotFace =
-    document.querySelector(
-        ".robot-face"
-    );
-
-
-const visitorCountDisplay =
-    document.getElementById(
-        "visitorCount"
-    );
-
-
-// ============================================
-// SETTINGS
-// ============================================
-
-const GREETING =
-    "Welcome to INSET! Let's learn, explore, and innovate!";
-
-
-// Person detection confidence
-
-const PERSON_CONFIDENCE =
-    0.60;
-
-
-// ============================================
-// AI MODEL
-// ============================================
+const GREETING = "Welcome to INSET! Let's learn, explore, and innovate!";
+const PERSON_CONFIDENCE = 0.60;
+const DETECTION_INTERVAL = 350;
+const PERSON_LOST_DELAY = 1800;
+const GREETING_COOLDOWN = 4000;
 
 let model = null;
-
-
-// ============================================
-// PERSON STATE
-// ============================================
-
 let personPresent = false;
-
-
-// ============================================
-// ROBOT SPEAKING STATE
-// ============================================
-
 let robotSpeaking = false;
-
-
-// ============================================
-// VISITOR COUNTER
-// ============================================
-
 let visitorCount = 0;
-
-
-// ============================================
-// EYE MOVEMENT
-// ============================================
+let lastGreetingTime = 0;
+let lastPersonSeen = 0;
+let detectionBusy = false;
 
 function lookAtPerson() {
-
-    leftPupil.style.transform =
-        "translate(8px, 5px)";
-
-
-    rightPupil.style.transform =
-        "translate(8px, 5px)";
-
+    if (leftPupil) leftPupil.style.transform = "translate(8px, 5px)";
+    if (rightPupil) rightPupil.style.transform = "translate(8px, 5px)";
 }
-
-
-// ============================================
-// RETURN EYES TO NORMAL
-// ============================================
 
 function returnEyesToNormal() {
-
-    leftPupil.style.transform =
-        "translate(0px, 0px)";
-
-
-    rightPupil.style.transform =
-        "translate(0px, 0px)";
-
+    if (leftPupil) leftPupil.style.transform = "translate(0, 0)";
+    if (rightPupil) rightPupil.style.transform = "translate(0, 0)";
 }
-
-
-// ============================================
-// ROBOT DETECTION REACTION
-// ============================================
 
 function reactToPerson() {
-
-    robotFace.classList.add(
-        "person-detected"
-    );
-
-
-    setTimeout(() => {
-
-        robotFace.classList.remove(
-            "person-detected"
-        );
-
-    }, 900);
-
+    if (!robotFace) return;
+    robotFace.classList.add("person-detected");
+    setTimeout(() => robotFace.classList.remove("person-detected"), 700);
 }
-
-
-// ============================================
-// TALKING ANIMATION
-// ============================================
 
 function startTalking() {
-
-    mouth.classList.add(
-        "talking"
-    );
-
+    if (mouth) mouth.classList.add("talking");
 }
-
-
-// ============================================
-// STOP TALKING ANIMATION
-// ============================================
 
 function stopTalking() {
-
-    mouth.classList.remove(
-        "talking"
-    );
-
+    if (mouth) mouth.classList.remove("talking");
 }
-
-
-// ============================================
-// REGISTER VISITOR
-// ============================================
 
 function registerVisitor() {
-
     visitorCount++;
 
+    if (visitorCountDisplay) {
+        visitorCountDisplay.textContent = String(visitorCount).padStart(2, "0");
+        visitorCountDisplay.classList.add("updated");
 
-    visitorCountDisplay.textContent =
-        String(visitorCount).padStart(
-            2,
-            "0"
-        );
-
-
-    visitorCountDisplay.classList.add(
-        "updated"
-    );
-
-
-    setTimeout(() => {
-
-        visitorCountDisplay.classList.remove(
-            "updated"
-        );
-
-    }, 500);
-
+        setTimeout(() => {
+            visitorCountDisplay.classList.remove("updated");
+        }, 400);
+    }
 }
 
-
-// ============================================
-// SPEAK GREETING
-// ============================================
-
 function speakGreeting() {
+    if (robotSpeaking || !("speechSynthesis" in window)) return;
 
-    if (robotSpeaking) {
+    const now = Date.now();
+    if (now - lastGreetingTime < GREETING_COOLDOWN) return;
 
-        return;
-
-    }
-
-
+    lastGreetingTime = now;
     robotSpeaking = true;
-
 
     window.speechSynthesis.cancel();
 
+    const speech = new SpeechSynthesisUtterance(GREETING);
+    speech.rate = 0.88;
+    speech.pitch = 1.02;
+    speech.volume = 1;
 
-    const speech =
-        new SpeechSynthesisUtterance(
-            GREETING
-        );
-
-
-    speech.rate =
-        0.9;
-
-
-    speech.pitch =
-        1.05;
-
-
-    speech.volume =
-        1;
-
-
-    statusText.textContent =
-        "AI ASSISTANT SPEAKING";
-
-
-    instruction.textContent =
-        "Welcome! Great to see you.";
-
+    if (statusText) statusText.textContent = "WELCOME — SPEAKING";
+    if (instruction) instruction.textContent = "Welcome! Great to see you.";
 
     startTalking();
 
+    // Word-boundary events help the mouth react to actual speech progress.
+    // The CSS animation provides continuous movement between these events.
+    speech.onboundary = () => {
+        if (mouth) {
+            mouth.classList.remove("speech-beat");
+            void mouth.offsetWidth;
+            mouth.classList.add("speech-beat");
+        }
+    };
 
-    speech.onend =
-        function () {
+    const finishSpeaking = () => {
+        robotSpeaking = false;
+        stopTalking();
 
-            robotSpeaking =
-                false;
+        if (mouth) mouth.classList.remove("speech-beat");
+        if (statusText) statusText.textContent = "AI VISION ACTIVE";
+        if (instruction) instruction.textContent = "Ready for the next guest";
+    };
 
+    speech.onend = finishSpeaking;
+    speech.onerror = finishSpeaking;
 
-            stopTalking();
-
-
-            statusText.textContent =
-                "AI VISION ACTIVE";
-
-
-            instruction.textContent =
-                "Ready for the next guest";
-
-        };
-
-
-    speech.onerror =
-        function () {
-
-            robotSpeaking =
-                false;
-
-
-            stopTalking();
-
-
-            statusText.textContent =
-                "AI VISION ACTIVE";
-
-
-            instruction.textContent =
-                "Ready for the next guest";
-
-        };
-
-
-    window.speechSynthesis.speak(
-        speech
-    );
-
+    window.speechSynthesis.speak(speech);
 }
-
-
-// ============================================
-// CAMERA
-// ============================================
 
 async function startCamera() {
-
     try {
+        if (!navigator.mediaDevices?.getUserMedia) {
+            throw new Error("Camera access is unavailable. Open the website in HTTPS Chrome.");
+        }
 
-        const stream =
-            await navigator.mediaDevices
-                .getUserMedia({
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: "user",
+                width: { ideal: 480 },
+                height: { ideal: 360 },
+                frameRate: { ideal: 12, max: 15 }
+            },
+            audio: false
+        });
 
-                    video: {
+        camera.srcObject = stream;
+        camera.muted = true;
+        camera.playsInline = true;
 
-                        facingMode:
-                            "user"
-
-                    },
-
-                    audio: false
-
-                });
-
-
-        camera.srcObject =
-            stream;
-
-
-        instruction.textContent =
-            "Camera connected — starting AI vision...";
-
-
-        statusText.textContent =
-            "LOADING AI MODEL";
-
+        if (instruction) instruction.textContent = "Camera connected — starting AI vision...";
+        if (statusText) statusText.textContent = "LOADING AI MODEL";
 
         await camera.play();
-
-
-        loadAIModel();
-
+        await loadAIModel();
+    } catch (error) {
+        console.error("Camera startup error:", error);
+        if (statusText) statusText.textContent = "CAMERA ACCESS REQUIRED";
+        if (instruction) instruction.textContent = "Allow camera access in Chrome and reload the page.";
     }
-
-    catch (error) {
-
-        console.error(
-            "Camera error:",
-            error
-        );
-
-
-        statusText.textContent =
-            "CAMERA ACCESS REQUIRED";
-
-
-        instruction.textContent =
-            "Please allow camera access in Chrome.";
-
-    }
-
 }
-
-
-// ============================================
-// LOAD AI MODEL
-// ============================================
 
 async function loadAIModel() {
-
     try {
+        if (instruction) instruction.textContent = "Loading computer vision...";
+        if (statusText) statusText.textContent = "LOADING AI MODEL";
 
-        instruction.textContent =
-            "Loading computer vision...";
+        model = await cocoSsd.load({ base: "lite_mobilenet_v2" });
 
+        if (statusText) statusText.textContent = "AI VISION ACTIVE";
+        if (instruction) instruction.textContent = "Step closer and meet your AI assistant";
 
-        statusText.textContent =
-            "LOADING AI MODEL";
-
-
-        model =
-            await cocoSsd.load();
-
-
-        statusText.textContent =
-            "AI VISION ACTIVE";
-
-
-        instruction.textContent =
-            "Step closer and meet your AI assistant";
-
-
-        console.log(
-            "COCO-SSD model loaded successfully."
-        );
-
-
+        console.log("AI model loaded.");
         detectPerson();
-
+    } catch (error) {
+        console.error("AI model error:", error);
+        if (statusText) statusText.textContent = "AI MODEL ERROR";
+        if (instruction) instruction.textContent = "Check your internet connection and reload.";
     }
-
-    catch (error) {
-
-        console.error(
-            "AI model error:",
-            error
-        );
-
-
-        statusText.textContent =
-            "AI MODEL ERROR";
-
-
-        instruction.textContent =
-            "Please check your internet connection.";
-
-    }
-
 }
-
-
-// ============================================
-// PERSON DETECTION
-// ============================================
 
 async function detectPerson() {
-
-    if (!model) {
-
+    if (!model || detectionBusy) {
+        setTimeout(detectPerson, DETECTION_INTERVAL);
         return;
-
     }
 
+    detectionBusy = true;
 
     try {
+        const predictions = await model.detect(camera);
 
-        const predictions =
-            await model.detect(
-                camera
-            );
-
-
-        const personDetected =
-            predictions.some(
-
-                prediction =>
-
-                    prediction.class ===
-                        "person"
-
-                    &&
-
-                    prediction.score >
-                        PERSON_CONFIDENCE
-
-            );
-
-
-        // ====================================
-        // NEW PERSON DETECTED
-        // ====================================
-
-        if (
-            personDetected
-            &&
-            !personPresent
-        ) {
-
-            personPresent =
-                true;
-
-
-            // Register visitor
-
-            registerVisitor();
-
-
-            // Look towards visitor
-
-            lookAtPerson();
-
-
-            // Visual reaction
-
-            reactToPerson();
-
-
-            // Update status
-
-            statusText.textContent =
-                "PERSON DETECTED";
-
-
-            instruction.textContent =
-                "Hello! I see you.";
-
-
-            // Speak greeting
-
-            speakGreeting();
-
-        }
-
-
-        // ====================================
-        // PERSON REMAINS
-        // ====================================
-
-        if (
-            personDetected
-            &&
-            personPresent
-        ) {
-
-            lookAtPerson();
-
-        }
-
-
-        // ====================================
-        // PERSON LEAVES
-        // ====================================
-
-        if (
-            !personDetected
-            &&
-            personPresent
-            &&
-            !robotSpeaking
-        ) {
-
-            personPresent =
-                false;
-
-
-            returnEyesToNormal();
-
-
-            statusText.textContent =
-                "AI VISION ACTIVE";
-
-
-            instruction.textContent =
-                "Ready for the next guest";
-
-        }
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Detection error:",
-            error
+        const detected = predictions.some(
+            prediction =>
+                prediction.class === "person" &&
+                prediction.score >= PERSON_CONFIDENCE
         );
 
+        const now = Date.now();
+
+        if (detected) {
+            lastPersonSeen = now;
+            lookAtPerson();
+
+            if (!personPresent) {
+                personPresent = true;
+                registerVisitor();
+                reactToPerson();
+
+                if (statusText) statusText.textContent = "PERSON DETECTED";
+                if (instruction) instruction.textContent = "Hello! I see you.";
+
+                speakGreeting();
+            }
+        } else if (
+            personPresent &&
+            now - lastPersonSeen >= PERSON_LOST_DELAY
+        ) {
+            personPresent = false;
+            returnEyesToNormal();
+
+            if (!robotSpeaking) {
+                if (statusText) statusText.textContent = "AI VISION ACTIVE";
+                if (instruction) instruction.textContent = "Ready for the next guest";
+            }
+        }
+    } catch (error) {
+        console.error("Person detection error:", error);
+    } finally {
+        detectionBusy = false;
+        setTimeout(detectPerson, DETECTION_INTERVAL);
     }
-
-
-    requestAnimationFrame(
-        detectPerson
-    );
-
 }
 
+window.addEventListener("load", () => {
+    if (statusText) statusText.textContent = "STARTING AI VISION...";
+    if (instruction) instruction.textContent = "Starting camera...";
+    startCamera();
+});
 
-// ============================================
-// START ROBOT
-// ============================================
-
-window.addEventListener(
-    "load",
-    () => {
-
-        statusText.textContent =
-            "STARTING AI VISION...";
-
-
-        instruction.textContent =
-            "Starting camera...";
-
-
-        startCamera();
-
+window.addEventListener("beforeunload", () => {
+    if (camera?.srcObject) {
+        camera.srcObject.getTracks().forEach(track => track.stop());
     }
-);
+    window.speechSynthesis?.cancel();
+});
