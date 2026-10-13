@@ -1,214 +1,119 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
-    <title>INSET AI Welcome Robot</title>
+    <meta name="theme-color" content="#071426">
 
-    <link
-        rel="stylesheet"
-        href="style.css"
+    <meta
+        name="description"
+        content="The City School INSET AI Welcome Robot"
     >
 
+    <title>INSET AI Welcome Robot | The City School</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
-
 <body>
+    <main class="app">
 
-<div class="app">
+        <!-- Subtle background lighting -->
+        <div class="glow glow-one" aria-hidden="true"></div>
+        <div class="glow glow-two" aria-hidden="true"></div>
 
+        <!-- School branding -->
+        <header class="top-bar">
+            <img
+                src="city-school-logo.png"
+                alt="The City School"
+                class="school-logo"
+            >
+        </header>
 
-    <!-- =========================================
-         BACKGROUND GLOW
-    ========================================== -->
+        <!-- AI status -->
+        <div class="status" role="status" aria-live="polite">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="statusText">STARTING AI VISION...</span>
+        </div>
 
-    <div class="glow glow-one"></div>
+        <!-- Visitor counter -->
+        <div class="visitor-counter">
+            <span class="counter-label">VISITORS WELCOMED</span>
+            <span id="visitorCount">00</span>
+        </div>
 
-    <div class="glow glow-two"></div>
+        <!-- Robot face and welcome message -->
+        <section class="robot-section" aria-label="AI welcome robot">
 
+            <div class="robot-face">
 
-    <!-- =========================================
-         TOP BAR
-    ========================================== -->
+                <!-- Expressive eyes -->
+                <div class="eyes" aria-hidden="true">
 
-    <div class="top-bar">
+                    <div class="eye left-eye">
+                        <div class="pupil"></div>
+                    </div>
 
-        <img
-            src="city-school-logo.png"
-            alt="The City School"
-            class="school-logo"
-        >
-
-    </div>
-
-
-    <!-- =========================================
-         AI STATUS
-    ========================================== -->
-
-    <div class="status">
-
-        <span class="status-dot"></span>
-
-        <span id="statusText">
-            STARTING AI VISION...
-        </span>
-
-    </div>
-
-
-    <!-- =========================================
-         VISITOR COUNTER
-    ========================================== -->
-
-    <div class="visitor-counter">
-
-        <span class="counter-label">
-            VISITORS WELCOMED
-        </span>
-
-        <span id="visitorCount">
-            00
-        </span>
-
-    </div>
-
-
-    <!-- =========================================
-         ROBOT SECTION
-    ========================================== -->
-
-    <main class="robot-section">
-
-
-        <!-- =====================================
-             ROBOT FACE
-        ====================================== -->
-
-        <div class="robot-face">
-
-
-            <!-- EYES -->
-
-            <div class="eyes">
-
-
-                <!-- LEFT EYE -->
-
-                <div class="eye left-eye">
-
-                    <div class="pupil"></div>
+                    <div class="eye right-eye">
+                        <div class="pupil"></div>
+                    </div>
 
                 </div>
 
-
-                <!-- RIGHT EYE -->
-
-                <div class="eye right-eye">
-
-                    <div class="pupil"></div>
-
-                </div>
-
+                <!-- Animated digital mouth -->
+                <div
+                    id="mouth"
+                    class="mouth"
+                    aria-hidden="true"
+                ></div>
 
             </div>
 
+            <!-- Welcome message -->
+            <div class="welcome-text">
+                <h1>Welcome to INSET!</h1>
+                <p>Let's learn, explore, and innovate!</p>
+            </div>
 
-            <!-- MOUTH -->
+        </section>
 
+        <!-- Camera status and instructions -->
+        <footer>
             <div
-                id="mouth"
-                class="mouth"
-            ></div>
+                id="instruction"
+                class="ai-message"
+                role="status"
+                aria-live="polite"
+            >
+                Starting camera...
+            </div>
+        </footer>
 
-
-        </div>
-
-
-        <!-- =====================================
-             WELCOME TEXT
-        ====================================== -->
-
-        <div class="welcome-text">
-
-            <h1>
-                Welcome to INSET!
-            </h1>
-
-            <p>
-                Let’s learn, explore, and innovate!
-            </p>
-
-        </div>
-
+        <!-- Hidden camera feed for AI detection -->
+        <video
+            id="camera"
+            autoplay
+            muted
+            playsinline
+            aria-hidden="true"
+        ></video>
 
     </main>
 
+    <!-- AI libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
 
-    <!-- =========================================
-         HIDDEN CAMERA
-    ========================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
 
-    <video
-        id="camera"
-        autoplay
-        muted
-        playsinline
-    ></video>
-
-
-    <!-- =========================================
-         FOOTER
-    ========================================== -->
-
-    <footer>
-
-        <div
-            id="instruction"
-            class="ai-message"
-        >
-            Starting camera...
-        </div>
-
-    </footer>
-
-
-    <!-- =========================================
-         TENSORFLOW
-    ========================================== -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js">
-    </script>
-
-
-    <!-- =========================================
-         COCO-SSD
-    ========================================== -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3">
-    </script>
-
-
-    <!-- =========================================
-         ROBOT JAVASCRIPT
-    ========================================== -->
-
-    <script
-        src="script.js">
-    </script>
-
-
-</div>
+    <!-- Robot logic -->
+    <script src="script.js"></script>
 
 </body>
-
 </html>
